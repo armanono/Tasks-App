@@ -90,22 +90,22 @@ This document outlines the phased execution plan for building the Task Manager A
 **Prerequisites:** Phase 2
 
 ### Tasks
-- [ ] **Edit Task**
-    - [ ] Add edit mode state to `TaskItem` (PRD 4.1.3).
-    - [ ] Implement `updateTask` function in `App.jsx`.
-    - [ ] Handle save (Enter/Blur) and cancel (Escape).
-    - [ ] **Acceptance Criteria:** Double-click or edit button enables editing; changes save correctly.
+- [x] **Edit Task**
+    - [x] Add edit mode state to `TaskItem` (PRD 4.1.3).
+    - [x] Implement `updateTask` function in `App.jsx`.
+    - [x] Handle save (Enter/Blur) and cancel (Escape).
+    - [x] **Acceptance Criteria:** Double-click or edit button enables editing; changes save correctly.
     - **Commit:** `feat: implement task editing`
-- [ ] **Task Filtering**
-    - [ ] Create `FilterButtons` component.
-    - [ ] Add filter state ('all', 'active', 'completed') to `App.jsx` (PRD 4.2.1).
-    - [ ] Implement filtering logic in `App.jsx`.
-    - [ ] **Acceptance Criteria:** Can switches views; UI shows only relevant tasks.
+- [x] **Task Filtering**
+    - [x] Create `FilterButtons` component.
+    - [x] Add filter state ('all', 'active', 'completed') to `App.jsx` (PRD 4.2.1).
+    - [x] Implement filtering logic in `App.jsx`.
+    - [x] **Acceptance Criteria:** Can switches views; UI shows only relevant tasks.
     - **Commit:** `feat: implement task filtering`
-- [ ] **Task Counter**
-    - [ ] Implement active task counting logic.
-    - [ ] Display count in UI (PRD 4.2.2).
-    - [ ] **Acceptance Criteria:** Shows correct "X tasks remaining" count.
+- [x] **Task Counter**
+    - [x] Implement active task counting logic.
+    - [x] Display count in UI (PRD 4.2.2).
+    - [x] **Acceptance Criteria:** Shows correct "X tasks remaining" count.
     - **Commit:** `feat: add task counter`
 
 ### Checkpoint

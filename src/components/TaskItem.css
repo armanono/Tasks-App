@@ -34,6 +34,16 @@
 .task-text {
   font-size: 1rem;
   word-break: break-word;
+  cursor: text;
+}
+
+.task-edit-input {
+  flex: 1;
+  font-size: 1rem;
+  padding: 0.4rem;
+  border: 1px solid var(--primary-color);
+  border-radius: 4px;
+  outline: none;
 }
 
 .task-delete-btn {
@@ -57,4 +67,9 @@
 .task-delete-btn:hover {
   background-color: #fff1f0;
   border-color: #ffccc7;
+}
+
+/* Hide delete button when editing */
+.task-item.editing .task-delete-btn {
+  display: none; 
 }

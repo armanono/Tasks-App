@@ -2,6 +2,7 @@ import { useState, useEffect } from 'react'
 import { v4 as uuidv4 } from 'uuid';
 import TaskInput from './components/TaskInput';
 import TaskList from './components/TaskList';
+import FilterButtons from './components/FilterButtons';
 import './App.css'
 
 const STORAGE_KEY = 'tasks';
@@ -17,6 +18,7 @@ function App() {
       return [];
     }
   });
+  const [filter, setFilter] = useState('all');
 
   // Save to localStorage whenever tasks change
   useEffect(() => {
@@ -46,6 +48,20 @@ function App() {
     setTasks(prevTasks => prevTasks.filter(task => task.id !== id));
   };
 
+  const updateTask = (id, newText) => {
+    setTasks(prevTasks => prevTasks.map(task =>
+      task.id === id ? { ...task, text: newText } : task
+    ));
+  };
+
+  const filteredTasks = tasks.filter(task => {
+    if (filter === 'active') return !task.completed;
+    if (filter === 'completed') return task.completed;
+    return true;
+  });
+
+  const activeCount = tasks.filter(task => !task.completed).length;
+
   return (
     <div className="app-container">
       <header className="app-header">
@@ -54,11 +70,18 @@ function App() {
       <main className="app-main">
         <TaskInput onAdd={addTask} />
         <TaskList
-          tasks={tasks}
+          tasks={filteredTasks}
           onToggle={toggleTask}
           onDelete={deleteTask}
+          onUpdate={updateTask}
         />
-        <p>Current Tasks: {tasks.length}</p>
+
+        <div className="app-footer">
+          <p className="task-count">
+            {activeCount} {activeCount === 1 ? 'task' : 'tasks'} remaining
+          </p>
+          <FilterButtons currentFilter={filter} setFilter={setFilter} />
+        </div>
       </main>
     </div>
   )

@@ -2,7 +2,7 @@ import PropTypes from 'prop-types';
 import TaskItem from './TaskItem';
 import './TaskList.css';
 
-function TaskList({ tasks, onToggle, onDelete }) {
+function TaskList({ tasks, onToggle, onDelete, onUpdate }) {
     if (tasks.length === 0) {
         return null; // or empty state handled in parent
     }
@@ -15,6 +15,7 @@ function TaskList({ tasks, onToggle, onDelete }) {
                     task={task}
                     onToggle={onToggle}
                     onDelete={onDelete}
+                    onUpdate={onUpdate}
                 />
             ))}
         </ul>
@@ -31,6 +32,7 @@ TaskList.propTypes = {
     ).isRequired,
     onToggle: PropTypes.func.isRequired,
     onDelete: PropTypes.func.isRequired,
+    onUpdate: PropTypes.func.isRequired,
 };
 
 export default TaskList;
