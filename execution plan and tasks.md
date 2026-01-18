@@ -7,15 +7,15 @@ This document outlines the phased execution plan for building the Task Manager A
 **Complexity:** Simple
 
 ### Tasks
-- [ ] **Initialize Project**
-    - [ ] Create React + Vite project (if not already created).
-    - [ ] Clean up boilerplate code.
-    - [ ] Install necessary dependencies (e.g., `prop-types` if not using TS, `clsx` for classes).
-    - [ ] **Acceptance Criteria:** `npm run dev` starts the app without errors. Page title is updated to "Task Manager".
-- [ ] **Directory Structure & Types**
-    - [ ] Create component folders (`src/components`, `src/hooks`, `src/utils`).
-    - [ ] Define Task data structure.
-    - [ ] **Acceptance Criteria:** Directory structure is clean and organized.
+- [x] **Initialize Project**
+    - [x] Create React + Vite project (if not already created).
+    - [x] Clean up boilerplate code.
+    - [x] Install necessary dependencies (e.g., `prop-types` if not using TS, `clsx` for classes).
+    - [x] **Acceptance Criteria:** `npm run dev` starts the app without errors. Page title is updated to "Task Manager".
+- [x] **Directory Structure & Types**
+    - [x] Create component folders (`src/components`, `src/hooks`, `src/utils`).
+    - [x] Define Task data structure.
+    - [x] **Acceptance Criteria:** Directory structure is clean and organized.
     - **Code Hint:**
       ```javascript
       // Task Structure
@@ -25,10 +25,10 @@ This document outlines the phased execution plan for building the Task Manager A
         completed: boolean
       }
       ```
-- [ ] **Basic Layout Implementation**
-    - [ ] Create main `App` layout shell (Header, Main Content Area).
-    - [ ] Implement responsiveness basics (container, padding).
-    - [ ] **Acceptance Criteria:** Application has a header "Task Manager" and a central content area.
+- [x] **Basic Layout Implementation**
+    - [x] Create main `App` layout shell (Header, Main Content Area).
+    - [x] Implement responsiveness basics (container, padding).
+    - [x] **Acceptance Criteria:** Application has a header "Task Manager" and a central content area.
     - **Commit:** `feat: setup project structure and basic layout`
 
 ### Checkpoint
