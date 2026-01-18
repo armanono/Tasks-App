@@ -156,3 +156,26 @@ This document outlines the phased execution plan for building the Task Manager A
     - [x] Remove console logs.
     - [x] Enforce consistent formatting.
     - **Commit:** `chore: final code cleanup`
+
+## Phase 6: UI Redesign (Dark Mode)
+**Goal:** Reskin the application to match the provided "Warm Task Manager" dark mode design.
+**Complexity:** Medium
+
+### Tasks
+## Phase 6: UI Redesign (Tailwind Migration)
+**Goal:** Implement the exact UI provided by the user using Tailwind CSS.
+**Complexity:** High
+
+### Tasks
+- [x] **Setup Tailwind CSS**
+    - [x] Install `tailwindcss`, `postcss`, `autoprefixer`.
+    - [x] Initialize and configure `tailwind.config.js` with provided theme tokens.
+    - [x] Add directives to `index.css`.
+- [x] **Refactor Components**
+    - [x] **App/Layout**: Match provided HTML (Header, Gradient, Body attributes).
+    - [x] **TaskInput**: Match "Tactile Input Area" HTML.
+    - [x] **FilterButtons**: Match "Filter Pills" HTML.
+    - [x] **TaskItem**: Match "Task Item" HTML (High Priority/Normal styles).
+- [x] **Cleanup**
+    - [x] Remove old CSS files (`App.css`, `TaskItem.css`, `TaskInput.css`, `FilterButtons.css`).
+    - [x] Verify functionality (dark mode enforced in `index.html`. Fonts/Icons added).

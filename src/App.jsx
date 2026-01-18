@@ -1,13 +1,28 @@
-import { useState, useEffect } from 'react'
+import { useState, useEffect } from 'react';
 import { v4 as uuidv4 } from 'uuid';
-import TaskInput from './components/TaskInput';
-import TaskList from './components/TaskList';
-import FilterButtons from './components/FilterButtons';
-import './App.css'
+import TaskInput from './components/TaskInput/TaskInput';
+import TaskList from './components/TaskList/TaskList';
+import FilterButtons from './components/FilterButtons/FilterButtons';
+import BottomNavigation from './components/BottomNavigation/BottomNavigation';
+import SettingsPage from './components/SettingsPage/SettingsPage';
 
 const STORAGE_KEY = 'tasks';
+const SETTINGS_KEY = 'settings';
 
 function App() {
+  // Navigation State
+  const [activeTab, setActiveTab] = useState('tasks');
+
+  // Settings State
+  const [settings, setSettings] = useState(() => {
+    try {
+      const savedSettings = localStorage.getItem(SETTINGS_KEY);
+      return savedSettings ? JSON.parse(savedSettings) : { dateFormat: 'PPP', tags: ['General', 'Priority', 'Work'] };
+    } catch {
+      return { dateFormat: 'PPP', tags: ['General', 'Priority', 'Work'] };
+    }
+  });
+
   // Load initial state from localStorage
   const [tasks, setTasks] = useState(() => {
     try {
@@ -29,11 +44,17 @@ function App() {
     }
   }, [tasks]);
 
+  // Save settings
+  useEffect(() => {
+    localStorage.setItem(SETTINGS_KEY, JSON.stringify(settings));
+  }, [settings]);
+
   const addTask = (text) => {
     const newTask = {
       id: uuidv4(),
       text,
       completed: false,
+      tags: [], // Prepare for tags
     };
     setTasks(prevTasks => [newTask, ...prevTasks]);
   };
@@ -48,9 +69,9 @@ function App() {
     setTasks(prevTasks => prevTasks.filter(task => task.id !== id));
   };
 
-  const updateTask = (id, newText) => {
+  const updateTask = (id, updates) => {
     setTasks(prevTasks => prevTasks.map(task =>
-      task.id === id ? { ...task, text: newText } : task
+      task.id === id ? { ...task, ...updates } : task
     ));
   };
 
@@ -64,43 +85,98 @@ function App() {
     setTasks(prevTasks => prevTasks.filter(task => !task.completed));
   };
 
-  const activeCount = tasks.filter(task => !task.completed).length;
-  const completedCount = tasks.length - activeCount;
-
   return (
-    <div className="app-container">
-      <header className="app-header">
-        <h1>Task Manager</h1>
-      </header>
-      <main className="app-main">
-        <TaskInput onAdd={addTask} />
-        <TaskList
-          tasks={filteredTasks}
-          onToggle={toggleTask}
-          onDelete={deleteTask}
-          onUpdate={updateTask}
-          emptyMessage={
-            tasks.length === 0
-              ? "No tasks yet. Add one above!"
-              : `No ${filter === 'all' ? '' : filter} tasks found.`
-          }
-        />
+    // Mobile Viewport Constraint
+    <div className="flex justify-center items-center min-h-screen bg-neutral-900 p-0 sm:p-4 font-display">
+      <div className="w-full max-w-[400px] bg-background-light dark:bg-background-dark h-dvh sm:h-[800px] sm:max-h-dvh sm:rounded-3xl shadow-2xl overflow-hidden relative flex flex-col selection:bg-primary/30 text-slate-900 dark:text-white ring-1 ring-white/10">
 
-        <div className="app-footer">
-          <p className="task-count">
-            {activeCount} {activeCount === 1 ? 'task' : 'tasks'} remaining
-          </p>
-          <FilterButtons currentFilter={filter} setFilter={setFilter} />
-          {completedCount > 0 && (
-            <button
-              onClick={clearCompleted}
-              className="clear-completed-btn"
-            >
-              Clear Completed
-            </button>
+        {/* Scrollable Content Area */}
+        <div className="flex-1 overflow-y-auto no-scrollbar scroll-smooth relative">
+
+          {/* VIEW: TASKS */}
+          {activeTab === 'tasks' && (
+            <div className="animate-in fade-in slide-in-from-bottom-2 duration-300">
+              {/* Header Area */}
+              <header className="flex items-center justify-between px-6 pt-8 pb-4">
+                <div className="flex flex-col">
+                  <h2 className="text-slate-500 dark:text-slate-400 text-sm font-medium mb-1 tracking-wide uppercase">Today's Schedule</h2>
+                  <h1 className="text-slate-900 dark:text-white text-3xl font-bold tracking-tight">
+                    Good morning! <span className="inline-block animate-pulse">☀️</span>
+                  </h1>
+                </div>
+
+                <div className="flex -space-x-2">
+                  <div className="h-12 w-12 rounded-full p-0.5 border-2 border-primary/30 relative">
+                    <img alt="User" className="h-full w-full rounded-full object-cover bg-gray-700" src="https://ui-avatars.com/api/?name=Alex&background=random" />
+                    <div className="absolute bottom-0 right-0 h-3 w-3 bg-green-500 border-2 border-background-light dark:border-background-dark rounded-full"></div>
+                  </div>
+                </div>
+              </header>
+
+              {/* Tactile Input Area */}
+              <TaskInput onAdd={addTask} />
+
+              {/* Filter Pills */}
+              <FilterButtons currentFilter={filter} setFilter={setFilter} />
+
+              {/* Spacious Task List */}
+              <div className="px-6 pb-32 flex flex-col gap-4">
+                <TaskList
+                  tasks={filteredTasks}
+                  onToggle={toggleTask}
+                  onDelete={deleteTask}
+                  onUpdate={updateTask}
+                  emptyMessage={
+                    <div className="text-center py-10 text-slate-500 dark:text-slate-400 opacity-60">
+                      <p>No tasks found.</p>
+                    </div>
+                  }
+                  dateFormat={settings.dateFormat}
+                  tags={settings.tags} // Pass available tags
+                />
+
+                {(filter !== 'active' && tasks.some(t => t.completed)) && (
+                  <div className="flex justify-center mt-4 mb-8">
+                    <button
+                      onClick={clearCompleted}
+                      className="text-xs font-medium text-slate-400 dark:text-slate-500 hover:text-red-500 transition-colors uppercase tracking-wider"
+                    >
+                      Clear Completed ({tasks.filter(t => t.completed).length})
+                    </button>
+                  </div>
+                )}
+              </div>
+            </div>
           )}
+
+          {/* VIEW: SETTINGS */}
+          {activeTab === 'settings' && (
+            <SettingsPage settings={settings} onUpdateSettings={setSettings} />
+          )}
+
+          {/* VIEW: ANALYTICS (Placeholder) */}
+          {activeTab === 'analytics' && (
+            <div className="flex flex-col items-center justify-center h-full text-slate-500 p-6 text-center animate-in fade-in zoom-in">
+              <span className="material-symbols-outlined text-6xl mb-4 opacity-50">bar_chart</span>
+              <h2 className="text-xl font-bold mb-2">Analytics</h2>
+              <p>Coming soon...</p>
+            </div>
+          )}
+
+          {/* VIEW: PROFILE (Placeholder) */}
+          {activeTab === 'profile' && (
+            <div className="flex flex-col items-center justify-center h-full text-slate-500 p-6 text-center animate-in fade-in zoom-in">
+              <span className="material-symbols-outlined text-6xl mb-4 opacity-50">person</span>
+              <h2 className="text-xl font-bold mb-2">My Profile</h2>
+              <p>Coming soon...</p>
+            </div>
+          )}
+
         </div>
-      </main>
+
+        {/* Bottom Navigation */}
+        <BottomNavigation activeTab={activeTab} setActiveTab={setActiveTab} />
+      </div>
     </div>
   )
 }

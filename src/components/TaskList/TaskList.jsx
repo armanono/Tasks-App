@@ -1,14 +1,13 @@
 import PropTypes from 'prop-types';
-import TaskItem from './TaskItem';
-import './TaskList.css';
+import TaskItem from '../TaskItem/TaskItem';
 
-function TaskList({ tasks, onToggle, onDelete, onUpdate, emptyMessage }) {
+function TaskList({ tasks, onToggle, onDelete, onUpdate, emptyMessage, dateFormat, tags }) {
     if (tasks.length === 0) {
         return <div className="task-list-empty">{emptyMessage}</div>;
     }
 
     return (
-        <ul className="task-list">
+        <ul className="flex flex-col gap-4">
             {tasks.map(task => (
                 <TaskItem
                     key={task.id}
@@ -16,6 +15,8 @@ function TaskList({ tasks, onToggle, onDelete, onUpdate, emptyMessage }) {
                     onToggle={onToggle}
                     onDelete={onDelete}
                     onUpdate={onUpdate}
+                    dateFormat={dateFormat}
+                    tags={tags}
                 />
             ))}
         </ul>
@@ -27,13 +28,15 @@ TaskList.propTypes = {
         PropTypes.shape({
             id: PropTypes.string.isRequired,
             text: PropTypes.string.isRequired,
-            completed: PropTypes.boolean,
+            completed: PropTypes.oneOfType([PropTypes.bool, PropTypes.string]),
         })
     ).isRequired,
     onToggle: PropTypes.func.isRequired,
     onDelete: PropTypes.func.isRequired,
     onUpdate: PropTypes.func.isRequired,
-    emptyMessage: PropTypes.string,
+    emptyMessage: PropTypes.node,
+    dateFormat: PropTypes.string,
+    tags: PropTypes.arrayOf(PropTypes.string),
 };
 
 export default TaskList;
