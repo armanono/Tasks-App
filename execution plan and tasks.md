@@ -43,9 +43,9 @@ This document outlines the phased execution plan for building the Task Manager A
 **Prerequisites:** Phase 1
 
 ### Tasks
-- [ ] **State Management & LocalStorage**
-    - [ ] Implement `useState` for tasks in `App.jsx`.
-    - [ ] Implement `useEffect` for reading/writing to `localStorage` (PRD 4.3.1).
+- [/] **State Management & LocalStorage**
+    - [/] Implement `useState` for tasks in `App.jsx`.
+    - [/] Implement `useEffect` for reading/writing to `localStorage` (PRD 4.3.1).
     - [ ] **Acceptance Criteria:** Tasks persist on browser refresh.
     - **Code Hint:**
       ```javascript
@@ -55,27 +55,27 @@ This document outlines the phased execution plan for building the Task Manager A
       }, []);
       ```
     - **Commit:** `feat: implement state management and local storage persistence`
-- [ ] **Add Task Functionality**
-    - [ ] Create `TaskInput` component.
-    - [ ] Implement `addTask` function in `App.jsx`.
-    - [ ] Validate non-empty input (PRD 4.1.1).
-    - [ ] **Acceptance Criteria:** User can add a task, input clears, empty input recognized and ignored.
+- [x] **Add Task Functionality**
+    - [x] Create `TaskInput` component.
+    - [x] Implement `addTask` function in `App.jsx`.
+    - [x] Validate non-empty input (PRD 4.1.1).
+    - [x] **Acceptance Criteria:** User can add a task, input clears, empty input recognized and ignored.
     - **Commit:** `feat: implement add task functionality`
-- [ ] **Task List & Item Rendering**
-    - [ ] Create `TaskList` and `TaskItem` components.
-    - [ ] Render list of tasks from state.
-    - [ ] **Acceptance Criteria:** Tasks added appear in the list immediately.
+- [x] **Task List & Item Rendering**
+    - [x] Create `TaskList` and `TaskItem` components.
+    - [x] Render list of tasks from state.
+    - [x] **Acceptance Criteria:** Tasks added appear in the list immediately.
     - **Commit:** `feat: implement task list rendering`
-- [ ] **Toggle Completion**
-    - [ ] Add checkbox to `TaskItem`.
-    - [ ] Implement `toggleTask` function.
-    - [ ] Apply visual styling for completed tasks (strikethrough/opacity) (PRD 4.1.2).
-    - [ ] **Acceptance Criteria:** Clicking checkbox toggles state and updates UI.
+- [x] **Toggle Completion**
+    - [x] Add checkbox to `TaskItem`.
+    - [x] Implement `toggleTask` function.
+    - [x] Apply visual styling for completed tasks (strikethrough/opacity) (PRD 4.1.2).
+    - [x] **Acceptance Criteria:** Clicking checkbox toggles state and updates UI.
     - **Commit:** `feat: implement toggle task completion`
-- [ ] **Delete Task**
-    - [ ] Add delete button to `TaskItem`.
-    - [ ] Implement `deleteTask` function.
-    - [ ] **Acceptance Criteria:** (PRD 4.1.4) Clicking delete removes task immediately.
+- [x] **Delete Task**
+    - [x] Add delete button to `TaskItem`.
+    - [x] Implement `deleteTask` function.
+    - [x] **Acceptance Criteria:** (PRD 4.1.4) Clicking delete removes task immediately.
     - **Commit:** `feat: implement delete task functionality`
 
 ### Checkpoint
