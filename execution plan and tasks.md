@@ -43,9 +43,9 @@ This document outlines the phased execution plan for building the Task Manager A
 **Prerequisites:** Phase 1
 
 ### Tasks
-- [/] **State Management & LocalStorage**
-    - [/] Implement `useState` for tasks in `App.jsx`.
-    - [/] Implement `useEffect` for reading/writing to `localStorage` (PRD 4.3.1).
+- [x] **State Management & LocalStorage**
+    - [x] Implement `useState` for tasks in `App.jsx`.
+    - [x] Implement `useEffect` for reading/writing to `localStorage` (PRD 4.3.1).
     - [ ] **Acceptance Criteria:** Tasks persist on browser refresh.
     - **Code Hint:**
       ```javascript
@@ -143,16 +143,16 @@ This document outlines the phased execution plan for building the Task Manager A
 **Prerequisites:** Phase 4
 
 ### Tasks
-- [ ] **Unit Testing**
-    - [ ] Setup Vitest + React Testing Library.
-    - [ ] Add tests for `TaskInput` and `TaskItem` (PRD 9.2).
+- [x] **Unit Testing**
+    - [x] Setup Vitest + React Testing Library.
+    - [x] Add tests for `TaskInput` and `TaskItem` (PRD 9.2).
     - **Acceptance Criteria:** Core components have basic unit tests passing.
     - **Commit:** `test: add unit tests`
-- [ ] **Clear Completed**
-    - [ ] Add "Clear Completed" button.
-    - [ ] Implement bulk delete logic.
+- [x] **Clear Completed**
+    - [x] Add "Clear Completed" button.
+    - [x] Implement bulk delete logic.
     - **Commit:** `feat: add clear completed button`
-- [ ] **Final Code Web Review**
-    - [ ] Remove console logs.
-    - [ ] Enforce consistent formatting.
+- [x] **Final Code Web Review**
+    - [x] Remove console logs.
+    - [x] Enforce consistent formatting.
     - **Commit:** `chore: final code cleanup`

@@ -60,7 +60,12 @@ function App() {
     return true;
   });
 
+  const clearCompleted = () => {
+    setTasks(prevTasks => prevTasks.filter(task => !task.completed));
+  };
+
   const activeCount = tasks.filter(task => !task.completed).length;
+  const completedCount = tasks.length - activeCount;
 
   return (
     <div className="app-container">
@@ -86,6 +91,14 @@ function App() {
             {activeCount} {activeCount === 1 ? 'task' : 'tasks'} remaining
           </p>
           <FilterButtons currentFilter={filter} setFilter={setFilter} />
+          {completedCount > 0 && (
+            <button
+              onClick={clearCompleted}
+              className="clear-completed-btn"
+            >
+              Clear Completed
+            </button>
+          )}
         </div>
       </main>
     </div>
