@@ -36,7 +36,13 @@ TaskList.propTypes = {
     onUpdate: PropTypes.func.isRequired,
     emptyMessage: PropTypes.node,
     dateFormat: PropTypes.string,
-    tags: PropTypes.arrayOf(PropTypes.string),
+    tags: PropTypes.arrayOf(PropTypes.oneOfType([
+        PropTypes.string,
+        PropTypes.shape({
+            name: PropTypes.string,
+            color: PropTypes.string
+        })
+    ])),
 };
 
 export default TaskList;

@@ -98,6 +98,34 @@ function TaskItem({ task, onToggle, onDelete, onUpdate, dateFormat = 'PPP', tags
         return date.toLocaleDateString(undefined, { month: 'short', day: 'numeric', year: 'numeric' });
     };
 
+    const getTagColor = (tag) => {
+        // Try to find the tag definition in props
+        const tagDef = tags.find(t => {
+            const tName = typeof t === 'string' ? t : t.name;
+            return tName === tag;
+        });
+
+        if (tagDef && typeof tagDef === 'object' && tagDef.color) {
+            return tagDef.color;
+        }
+
+        // Fallback to hash if not found or is string
+        const colors = [
+            'bg-blue-50 text-blue-600 dark:bg-blue-900/20 dark:text-blue-400',
+            'bg-green-50 text-green-600 dark:bg-green-900/20 dark:text-green-400',
+            'bg-purple-50 text-purple-600 dark:bg-purple-900/20 dark:text-purple-400',
+            'bg-orange-50 text-orange-600 dark:bg-orange-900/20 dark:text-orange-400',
+            'bg-pink-50 text-pink-600 dark:bg-pink-900/20 dark:text-pink-400',
+            'bg-teal-50 text-teal-600 dark:bg-teal-900/20 dark:text-teal-400',
+        ];
+        let hash = 0;
+        for (let i = 0; i < tag.length; i++) {
+            hash = tag.charCodeAt(i) + ((hash << 5) - hash);
+        }
+        const index = Math.abs(hash) % colors.length;
+        return colors[index];
+    };
+
     return (
         <div className={`group relative bg-white dark:bg-[#1e2936] rounded-2xl p-4 shadow-sm hover:shadow-md transition-all duration-300 border border-transparent dark:border-slate-800/50 ${task.completed ? 'opacity-60' : ''}`}>
             {/* Optional Priority Indicator (Visual only for now) */}
@@ -113,113 +141,132 @@ function TaskItem({ task, onToggle, onDelete, onUpdate, dateFormat = 'PPP', tags
                     />
                 </div>
 
-                <div className="flex-1 min-w-0">
-                    {isEditing ? (
-                        <input
-                            ref={inputRef}
-                            type="text"
-                            className="w-full bg-slate-100 dark:bg-slate-800 border-none rounded p-1 text-slate-900 dark:text-white font-medium text-lg leading-tight outline-none focus:ring-2 focus:ring-primary"
-                            value={editText}
-                            onChange={(e) => setEditText(e.target.value)}
-                            onBlur={handleBlur}
-                            onKeyDown={handleKeyDown}
-                        />
-                    ) : (
-                        <h3
-                            className={`font-semibold text-lg leading-tight mb-1 truncate transition-colors cursor-text ${task.completed
+                <div className="flex-1 min-w-0 flex flex-col gap-2">
+                    <div className="flex items-start justify-between">
+                        {isEditing ? (
+                            <input
+                                ref={inputRef}
+                                type="text"
+                                className="w-full bg-slate-100 dark:bg-slate-800 border-none rounded p-1 text-slate-900 dark:text-white font-medium text-lg leading-tight outline-none focus:ring-2 focus:ring-primary mb-1"
+                                value={editText}
+                                onChange={(e) => setEditText(e.target.value)}
+                                onBlur={handleBlur}
+                                onKeyDown={handleKeyDown}
+                            />
+                        ) : (
+                            <h3
+                                className={`font-semibold text-lg leading-tight truncate transition-colors cursor-text mr-2 ${task.completed
                                     ? "text-slate-500 dark:text-slate-500 line-through decoration-slate-400"
                                     : "text-slate-900 dark:text-white group-hover:text-primary"
-                                }`}
-                            onDoubleClick={handleDoubleClick}
-                        >
-                            {task.text}
-                        </h3>
-                    )}
-
-                    <div className="flex flex-wrap items-center gap-3 text-sm text-slate-500 dark:text-slate-400">
-                        {/* Dynamic Attributes / Tags */}
-                        <div className="relative" ref={tagMenuRef}>
-                            <button
-                                onClick={() => setShowTagMenu(!showTagMenu)}
-                                className="flex items-center gap-1 hover:bg-slate-100 dark:hover:bg-slate-800 rounded px-1 transition-colors"
+                                    }`}
+                                onDoubleClick={handleDoubleClick}
                             >
-                                {(task.tags && task.tags.length > 0) ? (
-                                    task.tags.map(tag => (
-                                        <span key={tag} className="flex items-center gap-1 bg-blue-50 dark:bg-blue-900/20 text-blue-600 dark:text-blue-400 px-2 py-0.5 rounded-md text-xs font-medium">
+                                {task.text}
+                            </h3>
+                        )}
+
+                        <div className="flex items-center opacity-0 group-hover:opacity-100 transition-opacity whitespace-nowrap">
+                            <button
+                                onClick={() => {
+                                    setIsEditing(true);
+                                    setEditText(task.text);
+                                }}
+                                className="text-slate-400 hover:text-primary dark:hover:text-primary p-1"
+                                title="Edit"
+                            >
+                                <span className="material-symbols-outlined">edit</span>
+                            </button>
+                            <button
+                                onClick={() => onDelete(task.id)}
+                                className="text-slate-400 hover:text-red-500 dark:hover:text-red-400 p-1"
+                                title="Delete"
+                            >
+                                <span className="material-symbols-outlined">delete</span>
+                            </button>
+                        </div>
+                    </div>
+
+                    {/* Tags Row */}
+                    <div className="relative" ref={tagMenuRef}>
+                        <button
+                            onClick={() => setShowTagMenu(!showTagMenu)}
+                            className="flex items-center gap-1 hover:bg-slate-100 dark:hover:bg-slate-800 rounded px-1 transition-colors -ml-1"
+                        >
+                            {(task.tags && task.tags.length > 0) ? (
+                                <div className="flex flex-wrap gap-1.5">
+                                    {task.tags.map(tag => (
+                                        <span key={tag} className={`flex items-center gap-1 px-2 py-0.5 rounded-md text-xs font-medium ${getTagColor(tag)}`}>
                                             {tag}
                                         </span>
-                                    ))
-                                ) : (
-                                    <span className="flex items-center gap-1 text-xs text-slate-400 hover:text-primary">
-                                        <span className="material-symbols-outlined text-[14px]">label</span>
-                                        Add Tag
-                                    </span>
-                                )}
-                            </button>
+                                    ))}
+                                </div>
+                            ) : (
+                                <span className="flex items-center gap-1 text-xs text-slate-400 hover:text-primary">
+                                    <span className="material-symbols-outlined text-[14px]">label</span>
+                                    Add Tag
+                                </span>
+                            )}
+                        </button>
 
-                            {/* Tag Selection Popup */}
-                            {showTagMenu && (
-                                <div className="absolute top-full left-0 mt-1 w-48 bg-white dark:bg-slate-800 rounded-lg shadow-xl border border-slate-200 dark:border-slate-700 z-50 p-2 animate-in fade-in zoom-in-95 duration-150">
-                                    <p className="text-xs font-semibold text-slate-500 dark:text-slate-400 mb-2 px-1">Select Tags</p>
-                                    <div className="flex flex-col gap-1 max-h-40 overflow-y-auto">
-                                        {tags.length > 0 ? tags.map(tag => (
+                        {/* Tag Selection Popup */}
+                        {showTagMenu && (
+                            <div className="absolute top-full left-0 mt-1 w-48 bg-white dark:bg-slate-800 rounded-lg shadow-xl border border-slate-200 dark:border-slate-700 z-50 p-2 animate-in fade-in zoom-in-95 duration-150">
+                                <p className="text-xs font-semibold text-slate-500 dark:text-slate-400 mb-2 px-1">Select Tags</p>
+                                <div className="flex flex-col gap-1 max-h-40 overflow-y-auto">
+                                    {tags.length > 0 ? tags.map(tagRef => {
+                                        const tagName = typeof tagRef === 'string' ? tagRef : tagRef.name;
+                                        return (
                                             <button
-                                                key={tag}
-                                                onClick={() => toggleTag(tag)}
-                                                className={`flex items-center gap-2 px-2 py-1.5 rounded text-sm text-left transition-colors ${(task.tags && task.tags.includes(tag))
-                                                        ? 'bg-primary/10 text-primary'
-                                                        : 'hover:bg-slate-100 dark:hover:bg-slate-700 text-slate-700 dark:text-slate-300'
+                                                key={tagName}
+                                                onClick={() => toggleTag(tagName)}
+                                                className={`flex items-center gap-2 px-2 py-1.5 rounded text-sm text-left transition-colors ${(task.tags && task.tags.includes(tagName))
+                                                    ? 'bg-primary/10 text-primary'
+                                                    : 'hover:bg-slate-100 dark:hover:bg-slate-700 text-slate-700 dark:text-slate-300'
                                                     }`}
                                             >
-                                                <span className={`material-symbols-outlined text-[16px] ${(task.tags && task.tags.includes(tag)) ? 'text-primary' : 'text-slate-300'}`}>
+                                                <span className={`material-symbols-outlined text-[16px] ${(task.tags && task.tags.includes(tagName)) ? 'text-primary' : 'text-slate-300'}`}>
                                                     check
                                                 </span>
-                                                {tag}
+                                                <span className={`${getTagColor(tagName)} px-1.5 rounded text-xs`}>{tagName}</span>
                                             </button>
-                                        )) : (
-                                            <div className="px-2 py-1 text-xs text-slate-400 italic">No tags defined in Settings</div>
-                                        )}
-                                    </div>
+                                        );
+                                    }) : (
+                                        <div className="px-2 py-1 text-xs text-slate-400 italic">No tags defined in Settings</div>
+                                    )}
                                 </div>
+                            </div>
+                        )}
+                    </div>
+
+                    {/* Date Row */}
+                    <div className="relative group/date w-fit">
+                        <button
+                            onClick={() => dateInputRef.current.showPicker()}
+                            className="flex items-center gap-1 hover:text-primary transition-colors cursor-pointer text-sm text-slate-500 dark:text-slate-400"
+                        >
+                            {task.dueDate ? (
+                                <>
+                                    <span className="material-symbols-outlined text-[16px]">schedule</span>
+                                    {formatDate(task.dueDate)}
+                                </>
+                            ) : (
+                                <>
+                                    <span className="material-symbols-outlined text-[16px]">calendar_month</span>
+                                    set date
+                                </>
                             )}
-                        </div>
-
-                        {/* Date Picker Trigger */}
-                        <div className="relative group/date">
-                            <button
-                                onClick={() => dateInputRef.current.showPicker()}
-                                className="flex items-center gap-1 hover:text-primary transition-colors cursor-pointer"
-                            >
-                                {task.dueDate ? (
-                                    <>
-                                        <span className="material-symbols-outlined text-[16px]">schedule</span>
-                                        {formatDate(task.dueDate)}
-                                    </>
-                                ) : (
-                                    <>
-                                        <span className="material-symbols-outlined text-[16px]">calendar_month</span>
-                                        set date
-                                    </>
-                                )}
-                            </button>
-                            <input
-                                ref={dateInputRef}
-                                type="date"
-                                className="absolute inset-0 opacity-0 cursor-pointer w-0 h-0"
-                                onChange={handleDateChange}
-                                value={task.dueDate || ''}
-                            />
-                        </div>
-
+                        </button>
+                        <input
+                            ref={dateInputRef}
+                            type="date"
+                            className="absolute inset-0 opacity-0 cursor-pointer w-0 h-0"
+                            onChange={handleDateChange}
+                            value={task.dueDate || ''}
+                        />
                     </div>
                 </div>
 
-                <button
-                    onClick={() => onDelete(task.id)}
-                    className="text-slate-400 hover:text-red-500 dark:hover:text-red-400 p-1 opacity-0 group-hover:opacity-100 transition-opacity"
-                >
-                    <span className="material-symbols-outlined">delete</span>
-                </button>
+
             </div>
         </div>
     );
