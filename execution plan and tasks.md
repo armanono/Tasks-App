@@ -120,15 +120,15 @@ This document outlines the phased execution plan for building the Task Manager A
 **Prerequisites:** Phase 3
 
 ### Tasks
-- [ ] **Styling Overhaul**
-    - [ ] Apply "Visual Design Guidelines" (PRD 7.2) - colors, spacing, typography.
-    - [ ] Improve hover states, focus states (a11y).
-    - [ ] Polish responsive layout (mobile friendliness).
+- [x] **Styling Overhaul**
+    - [x] Apply "Visual Design Guidelines" (PRD 7.2) - colors, spacing, typography.
+    - [x] Improve hover states, focus states (a11y).
+    - [x] Polish responsive layout (mobile friendliness).
     - **Acceptance Criteria:** App looks polished, clean, and modern.
     - **Commit:** `style: polish ui and improve responsiveness`
-- [ ] **Empty States & Feedback**
-    - [ ] Implement "No tasks yet" empty state (PRD 8.3).
-    - [ ] Ensure clear visual feedback for actions.
+- [x] **Empty States & Feedback**
+    - [x] Implement "No tasks yet" empty state (PRD 8.3).
+    - [x] Ensure clear visual feedback for actions.
     - **Acceptance Criteria:** Empty lists have friendly messaging.
     - **Commit:** `feat: add empty states and feedback`
 

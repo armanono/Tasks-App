@@ -74,6 +74,11 @@ function App() {
           onToggle={toggleTask}
           onDelete={deleteTask}
           onUpdate={updateTask}
+          emptyMessage={
+            tasks.length === 0
+              ? "No tasks yet. Add one above!"
+              : `No ${filter === 'all' ? '' : filter} tasks found.`
+          }
         />
 
         <div className="app-footer">
