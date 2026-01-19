@@ -20,6 +20,7 @@ function App() {
       if (!savedSettings) {
         return {
           dateFormat: 'PPP',
+          theme: 'light',
           tags: [
             { name: 'General', color: 'bg-blue-50 text-blue-600 dark:bg-blue-900/20 dark:text-blue-400' },
             { name: 'Priority', color: 'bg-red-50 text-red-600 dark:bg-red-900/20 dark:text-red-400' },
@@ -53,6 +54,7 @@ function App() {
     } catch {
       return {
         dateFormat: 'PPP',
+        theme: 'light',
         tags: [
           { name: 'General', color: 'bg-blue-50 text-blue-600 dark:bg-blue-900/20 dark:text-blue-400' },
           { name: 'Priority', color: 'bg-red-50 text-red-600 dark:bg-red-900/20 dark:text-red-400' },
@@ -83,9 +85,16 @@ function App() {
     }
   }, [tasks]);
 
-  // Save settings
+  // Save settings and Apply Theme
   useEffect(() => {
     localStorage.setItem(SETTINGS_KEY, JSON.stringify(settings));
+
+    // Apply Theme
+    if (settings.theme === 'dark') {
+      document.documentElement.classList.add('dark');
+    } else {
+      document.documentElement.classList.remove('dark');
+    }
   }, [settings]);
 
   const addTask = (text) => {
@@ -136,7 +145,7 @@ function App() {
           {activeTab === 'tasks' && (
             <div className="animate-in fade-in slide-in-from-bottom-2 duration-300">
               {/* Header Area */}
-              <header className="flex items-center justify-between px-6 pt-8 pb-4">
+              <header className="flex items-end justify-between px-6 pt-8 pb-4">
                 <div className="flex flex-col">
                   <h2 className="text-slate-500 dark:text-slate-400 text-sm font-medium mb-1 tracking-wide uppercase">Today's Schedule</h2>
                   <h1 className="text-slate-900 dark:text-white text-3xl font-bold tracking-tight">
@@ -144,12 +153,16 @@ function App() {
                   </h1>
                 </div>
 
-                <div className="flex -space-x-2">
-                  <div className="h-12 w-12 rounded-full p-0.5 border-2 border-primary/30 relative">
-                    <img alt="User" className="h-full w-full rounded-full object-cover bg-gray-700" src="https://ui-avatars.com/api/?name=Alex&background=random" />
-                    <div className="absolute bottom-0 right-0 h-3 w-3 bg-green-500 border-2 border-background-light dark:border-background-dark rounded-full"></div>
+                <button
+                  onClick={() => setSettings(s => ({ ...s, theme: s.theme === 'dark' ? 'light' : 'dark' }))}
+                  className="relative w-12 h-12 flex items-center justify-center rounded-full bg-white dark:bg-slate-800 shadow-xl hover:shadow-2xl ring-1 ring-slate-900/10 dark:ring-white/20 transition-all group"
+                  aria-label="Toggle Theme"
+                >
+                  <div className={`transition-transform duration-500 rotate-0 dark:-rotate-90`}>
+                    <span className="material-symbols-outlined text-2xl text-orange-500 dark:hidden">light_mode</span>
+                    <span className="material-symbols-outlined text-2xl text-blue-400 hidden dark:inline-block">dark_mode</span>
                   </div>
-                </div>
+                </button>
               </header>
 
               {/* Tactile Input Area */}
