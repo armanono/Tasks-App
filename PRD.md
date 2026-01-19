@@ -590,3 +590,39 @@ npm run dev
 - Vite as build tool
 - Client-side only (no backend)
 - Must work offline after initial load
+
+## 14. Implemented Extra Features
+
+The following features were not in the original scope but have been successfully implemented:
+
+### 14.1 Visual Enhancements
+- **Dark Mode:** Fully supported dark theme with a persistent toggle.
+- **Confetti Animation:** Celebratory confetti effect when completing a task.
+- **Micro-animations:** Smooth transitions for task entry, deletion, and filtering.
+
+### 14.2 Advanced Task Management
+- **Tags/Categories:** 
+  - Ability to add multiple tags to tasks
+  - Custom colors for tags
+  - Tag management settings (add/remove global tags)
+- **Due Dates:**
+  - Date helper utilities ("Today", "Tomorrow", etc.)
+  - Date format selection (Default vs European vs American)
+  - Date picker integration
+
+### 14.3 Analytics & Insights
+- **Analytics Dashboard:**
+  - Visual charts using `recharts`
+  - Tag distribution pie chart
+  - Completion rate statistics
+  - Urgency breakdown (Overdue, Today, Upcoming)
+
+### 14.4 Architectural Improvements
+- **Custom Hooks:** 
+  - `useTasks` for state logic
+  - `useAppSettings` for user preferences
+  - `useAnalytics` for data processing
+- **Modular Components:** 
+  - Refactored `TaskItem` into sub-components (`TaskCheckbox`, `TaskContent`, etc.)
+  - Refactored `SettingsPage` into `DateFormatSettings` and `TagSettings`
+- **Demo Data:** Automatic population of demo tasks for first-time users.

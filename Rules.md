@@ -11,7 +11,6 @@ Before You Commit
  Proper key attributes on list items
  State updates don't mutate
  Event handlers named consistently
- PropTypes or TypeScript types defined
  No unused variables or imports
  Accessible (semantic HTML, ARIA labels)
 
