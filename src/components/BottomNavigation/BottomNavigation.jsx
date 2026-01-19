@@ -1,4 +1,3 @@
-import { useState } from 'react';
 import PropTypes from 'prop-types';
 
 function BottomNavigation({ activeTab, setActiveTab }) {
@@ -18,8 +17,8 @@ function BottomNavigation({ activeTab, setActiveTab }) {
                         key={item.id}
                         onClick={() => setActiveTab(item.id)}
                         className={`flex flex-col items-center gap-1 transition-colors duration-300 ${activeTab === item.id
-                                ? 'text-primary'
-                                : 'text-slate-400 dark:text-slate-500 hover:text-slate-600 dark:hover:text-slate-300'
+                            ? 'text-primary'
+                            : 'text-slate-400 dark:text-slate-500 hover:text-slate-600 dark:hover:text-slate-300'
                             }`}
                     >
                         <span className={`material-symbols-outlined text-2xl ${activeTab === item.id ? 'fill-1' : ''}`}>
