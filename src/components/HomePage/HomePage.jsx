@@ -23,7 +23,7 @@ function HomePage({
                 <div className="flex flex-col">
                     <h2 className="text-slate-500 dark:text-slate-400 text-sm font-medium mb-1 tracking-wide uppercase">Today's Schedule</h2>
                     <h1 className="text-slate-900 dark:text-white text-3xl font-bold tracking-tight">
-                        Good morning! <span className="inline-block animate-pulse">☀️</span>
+                        Good night! <span className="inline-block animate-pulse">☀️</span>
                     </h1>
                 </div>
 
