@@ -150,10 +150,31 @@ react-todo-app/
 
 ## 🧪 Testing
 
-Run the test suite (if implemented):
+This project includes comprehensive tests for components using Vitest and React Testing Library.
+
+### Running Tests
+
 ```bash
-npm run test
+# Run all tests
+npm test
+
+# Run tests in watch mode
+npm test -- --watch
+
+# Run tests with UI
+npm run test:ui
+
+# Generate coverage report
+npm run test:coverage
 ```
+
+### Test Coverage
+
+- **TaskInput** (10 tests): Input validation, submission, clearing, keyboard interactions
+- **TaskItem** (12 tests): Toggling, deleting, editing, styling, tags, dates
+- **FilterButtons** (10 tests): Filter switching, highlighting, task counts
+
+**Total: 32 tests - All passing ✅**
 
 
 
